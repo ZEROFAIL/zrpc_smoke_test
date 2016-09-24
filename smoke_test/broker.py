@@ -20,9 +20,9 @@ logging.basicConfig(
 
 
 @click.command()
-@click.option('--frontend', default='tcp://127.0.0.1:5556',
+@click.option('--frontend', '-f', default='tcp://127.0.0.1:5556',
               help="frontend TCP endpoint")
-@click.option('--backend', default='tcp://127.0.0.1:5555',
+@click.option('--backend', '-b', default='tcp://127.0.0.1:5555',
               help="backend TCP endpoint")
 def cli(frontend, backend):
     loop = zmq_asyncio.ZMQEventLoop()
