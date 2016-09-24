@@ -14,5 +14,6 @@ setup(
         client=smoke_test.client:cli
         worker=smoke_test.worker:cli
         creategraph=smoke_test.data.create_graph:cli
+        queue=smoke_test.data.queue:cli
     ''',
 )
