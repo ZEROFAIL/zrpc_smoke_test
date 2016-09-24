@@ -45,7 +45,7 @@ def cli(broker, service):
 
     rpc_worker = worker.RPCWorker(broker=broker,rpc_handler=handler, loop=loop)
     loop.run_until_complete(rpc_worker.connect())
-    task = loop.create_task(rpc_worker.run())
+    task = rpc_worker.run()
     try:
         loop.run_forever()
     except KeyboardInterrupt:

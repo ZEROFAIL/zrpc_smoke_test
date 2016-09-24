@@ -31,8 +31,7 @@ def cli(frontend, backend):
     rpc_broker = broker.Broker(loop)
     rpc_broker.bind(frontend, backend)
 
-    tasks = asyncio.gather(rpc_broker.handle_frontend(),
-                           rpc_broker.handle_backend(), loop=loop)
+    tasks = rpc_broker.run()
     try:
         loop.run_forever()
     except KeyboardInterrupt:
