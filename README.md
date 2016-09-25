@@ -147,29 +147,29 @@ $ queue
 $ broker --frontend tcp://127.0.0.1:5556 --backend tcp://127.0.0.1:5555
 ```
 ```
-$ broker --frontend tcp://127.0.0.1:8080 --backend tcp://127.0.0.1:8081
+$ broker --frontend tcp://127.0.0.1:3000 --backend tcp://127.0.0.1:3001
 ```
 * Start the workers:
 ```
 $ worker --broker tcp://127.0.0.1:5555 --service streaming
 ```
 ```
-$ worker --broker tcp://127.0.0.1:8081 --service streaming
+$ worker --broker tcp://127.0.0.1:3001 --service streaming
 ```
 ```
 $ worker --broker tcp://127.0.0.1:5555 --service create
 ```
 ```
-$ worker --broker tcp://127.0.0.1:8081 --service create
+$ worker --broker tcp://127.0.0.1:3001 --service create
 ```
 * Start the clients:
 ```
-$ client --task build --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+$ client --task build --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:3000
 ```
 ```
-$ client --task nodes --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+$ client --task nodes --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:3000
 ```
 ```
-$ client --task edges --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+$ client --task edges --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:3000
 ```
 * Check for smoke...
