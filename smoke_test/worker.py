@@ -78,6 +78,7 @@ async def stream_nodes(request, response):
         msg = "Vertex: {} - nx_id={}, created at {} o'clock".format(
             vid, nx_id, time)
         response.write(msg.encode('utf-8'))
+        await asyncio.sleep(0.1)
     response.write_final(b'')
 
 
@@ -89,6 +90,7 @@ async def stream_edges(request, response):
         time = msg['properties']['timestamp']
         msg = "Edge: {} created at {} o'clock".format(eid, time)
         response.write(msg.encode('utf-8'))
+        await asyncio.sleep(0.1)
     response.write_final(b'')
 
 

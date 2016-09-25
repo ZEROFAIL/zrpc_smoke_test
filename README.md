@@ -121,8 +121,8 @@ $ client --task edges --broker tcp://127.0.0.1:5556
 
 These clients will open streams that return the all the vertices and edges
 in the database. Since edges are constantly being created by the `create`
-service, we can slow the streams down a bit using a short sleep, and they
-will continuously stream graph elements as they are created.
+service, we can slow the streams down a bit using a short sleep to prioritize this
+traffic, and while the `streaming` workers continuously stream graph elements as they are created.
 
 
 ## Multi-Broker Example
