@@ -32,6 +32,7 @@ async def build(rpc_client):
                 break
             logger.info('retreieved {} from datastore'.format(msg.body))
             try:
+                await asyncio.sleep(0.1)
                 resp = await asyncio.wait_for(
                     rpc_client.call('create_edge', msg.body), 1)
                 msg = await asyncio.wait_for(resp.get(), 1)
@@ -53,14 +54,13 @@ async def nodes(rpc_client):
                 if not msg.body:
                     break
                 logger.info('Retrieved {}'.format(msg.body))
-                # This makes the build task a priority
             logger.info(
                 '***********RETRIEVED ALL NODES...SLEEPING...***********')
         except:
             await asyncio.sleep(5)
             continue
         else:
-            await asyncio.sleep(3)
+            await asyncio.sleep(0.5)
 
 
 async def edges(rpc_client):
@@ -74,14 +74,13 @@ async def edges(rpc_client):
                 if not msg.body:
                     break
                 logger.info('Retrieved {}'.format(msg.body))
-                # This makes the build task a priority
             logger.info(
                 '***********RETRIEVED ALL EDGES...SLEEPING...***********')
         except:
             await asyncio.sleep(5)
             continue
         else:
-            await asyncio.sleep(3)
+            await asyncio.sleep(0.5)
 
 
 tasks = {
