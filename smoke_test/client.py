@@ -27,7 +27,7 @@ async def build(rpc_client):
             await asyncio.sleep(5)
             pass
         else:
-            if not msg:
+            if not msg.body:
                 logger.info('SUCCESS! READ ALL EDGES FROM DATABASE')
                 break
             logger.info('retreieved {} from datastore'.format(msg.body))
