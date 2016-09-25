@@ -32,7 +32,6 @@ async def build(rpc_client):
                 break
             logger.info('retreieved {} from datastore'.format(msg.body))
             try:
-                await asyncio.sleep(0.1)
                 resp = await asyncio.wait_for(
                     rpc_client.call('create_edge', msg.body), 1)
                 msg = await asyncio.wait_for(resp.get(), 1)
@@ -70,7 +69,7 @@ async def edges(rpc_client):
             resp = await asyncio.wait_for(
                 rpc_client.call('stream_edges', b''), 1)
             while True:
-                msg = await resp.get()
+                msg = await asyncio.wait_for(resp.get(), 1)
                 if not msg.body:
                     break
                 logger.info('Retrieved {}'.format(msg.body))
