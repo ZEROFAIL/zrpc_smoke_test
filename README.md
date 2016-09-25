@@ -14,12 +14,12 @@ $ pip install <zrpc_root@mutliple_broker>
 $ pip install goblin, networkx
 $ pip install -U aiohttp
 ```
+**Make sure** you pull the most recent version of zrpc from gitlab
 
 ## Install the `zrpc_smoke_test` module
 
-
 ```
-$ pip install <from_github>
+$ pip install git+https://github.com/ZEROFAIL/zrpc_smoke_test.git
 ```
 
 ## Populating the TinkerGraph DB
@@ -87,8 +87,91 @@ can see in the output.
 
 The client is the least robust part of the system, and in real life application
 code should handle errors and recovery in case of broker failure. However,
-it does have some recovery code baked in to the implmentation.
+it does have some recovery code baked in to the implementation.
 
 Try killing the broker...what happens? The client should log that it has been
 hospitalized. Turn it back on, the client should start creating data again.
 You can do the same with the worker.
+
+## Setting up the streaming service
+
+The smoke test is also set up to simultaneously stream nodes and edges while
+they are being created. So, you can leave the population process going, and
+add a couple `streaming` service workers. Open a terminal:
+
+```
+$ worker --broker tcp://127.0.0.1:5555 --service streaming
+```
+
+Then in a separate terminal:
+
+```
+$ worker --broker tcp://127.0.0.1:5555 --service streaming
+```
+
+Then, open a couple more terminals and start up some clients:
+
+```
+$ client --task nodes --broker tcp://127.0.0.1:5556
+```
+
+and
+
+```
+$ client --task edges --broker tcp://127.0.0.1:5556
+```
+
+These clients will open streams that return the all the vertices and edges
+in the database. Since edges are constantly being created by the `create`
+service, we can slow the streams down a bit using a short sleep, and they
+will continuously stream graph elements as they are created.
+
+
+## Multi-Broker Example
+
+This system runs equally well with multiple brokers. Shut down all of the clients,
+brokers, and workers running from the first process (you could leave the broker
+and workers running if you want, but this way the example is cleaner).
+
+This example uses: 3 clients, 2 brokers, and 4 workers + the `queue` service and
+the Gremlin Server. Therefore, you need 11 open terminals.
+
+1. Start the Gremlin Server:
+```
+$ ./bin/gremlin-server.sh
+```
+2. Start the data queue:
+```
+$ queue
+```
+3. Start the brokers:
+```
+$ broker --frontend tcp://127.0.0.1:5556 --backend tcp://127.0.0.1:5555
+```
+```
+$ broker --frontend tcp://127.0.0.1:8080 --backend tcp://127.0.0.1:8081
+```
+4. Start the workers:
+```
+$ worker --broker tcp://127.0.0.1:5555 --service streaming
+```
+```
+$ worker --broker tcp://127.0.0.1:8081 --service streaming
+```
+```
+$ worker --broker tcp://127.0.0.1:5555 --service create
+```
+```
+$ worker --broker tcp://127.0.0.1:8081 --service create
+```
+5. Start the clients:
+```
+$ client --task build --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+```
+```
+$ client --task nodes --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+```
+```
+$ client --task edges --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
+```
+6. Check for smoke...
