@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name='smoketest',
     version='0.1',
-    py_modules=['smoke_test, data'],
+    py_modules=['smoke_test, smoke_test.data'],
     install_requires=[
         'Click',
     ],
