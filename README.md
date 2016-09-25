@@ -1,7 +1,5 @@
 # Running the Smoke Test
 
-The smo
-
 ## Get a fresh environment:
 ```
 $ mkvirtualenv -p /usr/bin/python3.5 smoke_test
@@ -30,7 +28,7 @@ methods:
 - `yield_edge` gets a single edge from and external datastore and returns it
 to the client.
 
-- `create_edge` receives the yielded edge checks if the source and target
+- `create_edge` receives the yielded edge, checks if the source and target
 vertices exist in the TinkerGraph DB, creates them if necessary, and then
 creates the edge between them.
 
@@ -38,7 +36,7 @@ creates the edge between them.
 
 The external datastore consists of a simple HTTP server that accesses a queue
 of edges. These edges are read from a flat text file. To create the text file,
-simply call:
+use the command:
 
 ```
 $ creategraph
@@ -136,22 +134,22 @@ and workers running if you want, but this way the example is cleaner).
 This example uses: 3 clients, 2 brokers, and 4 workers + the `queue` service and
 the Gremlin Server. Therefore, you need 11 open terminals.
 
-1. Start the Gremlin Server:
+* Start the Gremlin Server:
 ```
 $ ./bin/gremlin-server.sh
 ```
-2. Start the data queue:
+* Start the data queue:
 ```
 $ queue
 ```
-3. Start the brokers:
+* Start the brokers:
 ```
 $ broker --frontend tcp://127.0.0.1:5556 --backend tcp://127.0.0.1:5555
 ```
 ```
 $ broker --frontend tcp://127.0.0.1:8080 --backend tcp://127.0.0.1:8081
 ```
-4. Start the workers:
+* Start the workers:
 ```
 $ worker --broker tcp://127.0.0.1:5555 --service streaming
 ```
@@ -164,7 +162,7 @@ $ worker --broker tcp://127.0.0.1:5555 --service create
 ```
 $ worker --broker tcp://127.0.0.1:8081 --service create
 ```
-5. Start the clients:
+* Start the clients:
 ```
 $ client --task build --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
 ```
@@ -174,4 +172,4 @@ $ client --task nodes --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:808
 ```
 $ client --task edges --broker tcp://127.0.0.1:5556 --broker tcp://127.0.0.1:8080
 ```
-6. Check for smoke...
+* Check for smoke...
