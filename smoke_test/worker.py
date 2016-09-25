@@ -38,7 +38,7 @@ async def yield_edge(request, response):
     async with aiohttp.ClientSession(loop=loop) as client:
         edge = await client.get('http://localhost:8080/')
         payload = await edge.read()
-        logger.info(edge, payload)
+        logger.info(payload)
         response.write_final(payload)
 
 
