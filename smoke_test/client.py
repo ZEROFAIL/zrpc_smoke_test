@@ -54,7 +54,7 @@ async def nodes(rpc_client):
                     break
                 logger.info('Retrieved {}'.format(msg.body))
                 # This makes the build task a priority
-                # await asyncio.sleep(0.1)
+                await asyncio.sleep(0.1)
             logger.info(
                 '***********RETRIEVED ALL NODES...SLEEPING...***********')
         except:
