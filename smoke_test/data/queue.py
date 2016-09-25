@@ -37,7 +37,7 @@ async def get(request):
     try:
         line = queue.get_nowait()
     except asyncio.QueueEmpty:
-        line = b''
+        line = ''
     logger.info('Sending edge: {}'.format(line))
     return web.Response(text=line)
 
